@@ -18,7 +18,7 @@ var imgEl = document.getElementById("mood-img");
 var mood = 0;
 
 function onTick() {
-    if (mood < moods.length) {
+    if (mood < moods.length - 1) {
         mood++;
     } else {
         mood = 0;
