@@ -33,6 +33,10 @@ body {
     animation: spin 1s;
 }
 
+.material-icons {
+    cursor: pointer;
+}
+
 #img-container {
     height: 400px;
     margin-top: 50px;
@@ -42,12 +46,15 @@ body {
     height: 100%;
 }
 
-#footer {
+#bottom {
     width: 100%;
-    height: 60px;
-    line-height: 60px;
     position: absolute;
     bottom: 0;
+}
+
+#footer {
+    height: 60px;
+    line-height: 60px;
     border-top: solid #2458A9 1px;
     text-align: center;
 }
@@ -66,7 +73,6 @@ body {
 #state-ctrl i {
     font-size: 36px;
     color: #FFFFFF;
-    cursor: pointer;
     transition: color 1s;
 }
 
@@ -76,7 +82,18 @@ body {
 }
 
 #mood-name {
-    font-size: 22px;
+    font-size: 36px;
     text-align: center;
+    color: #FFFFFF;
+}
+
+#expand-btns {
+    float: right;
+    margin-right: 20px;
+    font-size: 36px;
+}
+
+#expand-btns i {
+    font-size: 36px;
     color: #FFFFFF;
 }

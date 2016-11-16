@@ -1,5 +1,6 @@
 "use strict";
 
+// Array of moods
 var moods = [
     "hungry",
     "thirsty",
@@ -9,16 +10,23 @@ var moods = [
 ];
 
 var moodIndex = 0;
-var stepInterval = setInterval(onTick, 1000);
+
+var _defaultStepDuration = 1000;
+var stepInterval = setInterval(onTick, _defaultStepDuration);
 
 var app = new Vue({
     el: "#app",
     data: {
-        // Either "auto" (Steps every x seconds) or "manual" which requires button presses
         currentMood: { name: "", src: "" },
+
+        // Either "auto" (Steps every x seconds) or "manual" which requires button presses
         stepMode: "auto",
+        stepDuration: _defaultStepDuration,
         stateCtrlBtnClass: "material-icons inactive",
-        stateCtrlModeIcon: "pause"
+        stateCtrlModeIcon: "pause",
+
+        expanded: undefined,
+        prettyExpandedName: ""
     },
     methods: {
         onTick: onTick,
@@ -40,12 +48,12 @@ var app = new Vue({
                 /*
                  * The animation that takes place in #state-ctrl when changing step modes
                  * is 1000ms long. In app.methods.toggleStepMode the actual value of stepMode
-                 * is changed at 250ms in the animation for best visual look. However the user
-                 * does not perceive stepMode as being changed until the 1000ms animation is done
+                 * is changed at 250ms in the animation for the best visual look. However the user
+                 * does not perceive stepMode as being changed until the 1000ms animation is complete
                  * so we will not start stepping until the animation is complete, aka 750ms.
                  */
                 setTimeout(function() {
-                    stepInterval = setInterval(onTick, 1000);
+                    stepInterval = setInterval(onTick, this.stepDuration);
                 }, 750);
             } else {
                 clearInterval(stepInterval)
@@ -55,6 +63,9 @@ var app = new Vue({
                 (this.stepMode === "auto" ? " inactive" : "");
 
             this.stateCtrlModeIcon = (this.stepMode === "auto" ? "pause" : "play_arrow")
+        },
+        expanded: function(newVal, oldVal) {
+            this.prettyExpandedName = this.expanded.charAt(0).toUpperCase() + this.expanded.slice(1);
         }
     }
 });

@@ -1,3 +1,7 @@
+<!--
+TODO: Figure out pause play button bug (Pause then play, steps wayyyy to fast)
+TODO: Add bottom extra bar using tabs
+-->
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -14,16 +18,27 @@
                 <img id="mood-img" v-bind:src="currentMood.src">
             </div>
 
-            <div id="footer">
-                <div id="state-ctrl" class="footer-el">
-                    <i id="state-backward" v-bind:class="stateCtrlBtnClass">fast_rewind</i>
-                    <i id="state-toggle" class="material-icons" v-on:click="toggleStepMode">{{stateCtrlModeIcon}}</i>
-                    <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onTick">
-                        fast_forward
-                    </i>
+            <div id="bottom">
+                <div id="footer">
+                    <div id="state-ctrl" class="footer-el">
+                        <i id="state-backward" v-bind:class="stateCtrlBtnClass">fast_rewind</i>
+                        <i id="state-toggle" class="material-icons" v-on:click="toggleStepMode">{{stateCtrlModeIcon}}</i>
+                        <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onTick">
+                            fast_forward
+                        </i>
+                    </div>
+
+                    <div id="mood-name" class="footer-el">{{currentMood.name}}</div>
+
+                    <div id="expand-btns" class="footer-el">
+                        <i class="material-icons">info</i>
+                        <i class="material-icons">settings</i>
+                    </div>
                 </div>
 
-                <div id="mood-name" class="footer-el">{{currentMood.name}}</div>
+                <div id="expanded-footer">
+                    <div id="expanded-name">{{prettyExpandedName}}</div>
+                </div>
             </div>
         </div>
 
