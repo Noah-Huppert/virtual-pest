@@ -3,23 +3,29 @@
     <head>
         <title>Lab 8</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Oswald|Material+Icons" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
+
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
     </head>
     <body>
-        <div id="img-container">
-            <img id="mood-img" src="img/states/thirsty/thirsty.png">
-        </div>
+        <div id="app">
+            <div id="img-container">
+                <img id="mood-img" v-bind:src="currentMood.src">
+            </div>
 
-        <div id="img-footer">
-            <div id="chng-mood-btn" class="button">Change Mood</div>
-        </div>
+            <div id="footer">
+                <div id="state-ctrl" class="footer-el">
+                    <i id="state-backward" v-bind:class="stateCtrlBtnClass">fast_rewind</i>
+                    <i id="state-toggle" class="material-icons" v-on:click="toggleStepMode">{{stateCtrlModeIcon}}</i>
+                    <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onTick">
+                        fast_forward
+                    </i>
+                </div>
 
-        <!--
-        TODO: Figure out how to properly attribute MDL for license
-        TODO: Link in MDL
-        TODO: Convert button to MDL
-        -->
+                <div id="mood-name" class="footer-el">{{currentMood.name}}</div>
+            </div>
+        </div>
 
         <script src="js/script.js"></script>
     </body>

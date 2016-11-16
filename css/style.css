@@ -1,5 +1,8 @@
 body {
+    margin: 0;
+    padding: 0;
     background: #2A7DFF;
+    font-family: 'Oswald', sans-serif;
 }
 
 .button {
@@ -7,7 +10,6 @@ body {
     background: #FFFFFF;
     border-radius: 2px;
     font-size: 24px;
-    font-family: 'Oswald', sans-serif;
     color: #FF412A;
     user-select: none;
     display: inline-block;
@@ -15,6 +17,20 @@ body {
 
 .button:hover {
     cursor: pointer;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animation-spin {
+    animation: spin 1s;
 }
 
 #img-container {
@@ -26,7 +42,41 @@ body {
     height: 100%;
 }
 
-#img-footer {
-    margin-top: 30px;
+#footer {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    position: absolute;
+    bottom: 0;
+    border-top: solid #2458A9 1px;
     text-align: center;
+}
+
+.footer-el {
+    display: inline-block;
+}
+
+#state-ctrl {
+    float: left;
+    margin-left: 20px;
+    font-size: 36px;
+    user-select: none;
+}
+
+#state-ctrl i {
+    font-size: 36px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: color 1s;
+}
+
+#state-ctrl .inactive {
+    color: #0C47A4 !important;
+    cursor: not-allowed !important;
+}
+
+#mood-name {
+    font-size: 22px;
+    text-align: center;
+    color: #FFFFFF;
 }
