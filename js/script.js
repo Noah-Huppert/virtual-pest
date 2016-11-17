@@ -40,6 +40,10 @@ var app = new Vue({
             setTimeout(function() {
                 app.stepMode = (app.stepMode === "auto" ? "manual" : "auto");
             }, 250);
+        },
+        disabledBtn: function () {
+            var el = document.querySelector(".mdl-js-snackbar");
+            el.MaterialSnackbar.showSnackbar({ "message": "I don't do anything yet..."});
         }
     },
     watch: {
@@ -53,10 +57,10 @@ var app = new Vue({
                  * so we will not start stepping until the animation is complete, aka 750ms.
                  */
                 setTimeout(function() {
-                    stepInterval = setInterval(onTick, this.stepDuration);
+                    stepInterval = setInterval(onTick, app.stepDuration);
                 }, 750);
             } else {
-                clearInterval(stepInterval)
+                clearInterval(stepInterval);
             }
 
             this.stateCtrlBtnClass = "material-icons" +
