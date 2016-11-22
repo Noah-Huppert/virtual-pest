@@ -8,16 +8,21 @@ var moods = [
     "sad",
     "tired"
 ];
+/*
+var moods = [
+    {
 
-var moodIndex = 0;
+    }
+];
+*/
 
-var _defaultStepDuration = 1000;
+var _defaultStepDuration = 2000;
 var stepInterval = setInterval(onTick, _defaultStepDuration);
 
 var app = new Vue({
     el: "#app",
     data: {
-        currentMood: { name: "", src: "" },
+        currentMood: { name: "", src: "", i: 0 },
 
         // Either "auto" (Steps every x seconds) or "manual" which requires button presses
         stepMode: "auto",
@@ -41,9 +46,10 @@ var app = new Vue({
                 app.stepMode = (app.stepMode === "auto" ? "manual" : "auto");
             }, 250);
         },
-        disabledBtn: function () {
-            var el = document.querySelector(".mdl-js-snackbar");
-            el.MaterialSnackbar.showSnackbar({ "message": "I don't do anything yet..."});
+        onStateForwardClick: function() {
+            if (this.stepMode === "manual") {
+                onTick();
+            }
         }
     },
     watch: {
@@ -80,13 +86,13 @@ var app = new Vue({
  */
 function onTick() {
     // Increment to next mood or reset back to beginning if at end
-    if (moodIndex < moods.length - 1) {
-        moodIndex++;
+    if (app.currentMood.i < moods.length - 1) {
+        app.currentMood.i++;
     } else {
-        moodIndex = 0;
+        app.currentMood.i = 0;
     }
 
-    setMood(moodIndex);
+    setMood(app.currentMood.i);
 }
 
 /**

@@ -64,6 +64,36 @@ body {
     display: inline-block;
 }
 
+#details-footer {
+    height: 250px;
+    background: #FFFFFF;
+    border-top: solid #000000 1px;
+}
+
+#details-footer .mdl-tabs__tab-bar a {
+    color: #000000;
+}
+
+.tab-name {
+    margin: 10px;
+    font-size: 24px;
+    color: #819197;
+}
+
+.tab-content {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.mood-bubble {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 40px;
+    border: solid #000000 1px;
+}
+
 #state-ctrl {
     float: left;
     margin-left: 20px;

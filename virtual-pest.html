@@ -5,7 +5,7 @@ TODO: Add bottom extra bar using tabs
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Lab 8</title>
+        <title>Virtual Pest</title>
 
         <link href="https://fonts.googleapis.com/css?family=Oswald|Material+Icons" rel="stylesheet">
         <link href="css/lib/material.min.css" rel="stylesheet">
@@ -23,9 +23,9 @@ TODO: Add bottom extra bar using tabs
             <div id="bottom">
                 <div id="footer">
                     <div id="state-ctrl" class="footer-el">
-                        <i id="state-backward" v-bind:class="stateCtrlBtnClass" v-on:click="disabledBtn">fast_rewind</i>
+                        <i id="state-backward" v-bind:class="stateCtrlBtnClass">fast_rewind</i>
                         <i id="state-toggle" class="material-icons" v-on:click="toggleStepMode">{{stateCtrlModeIcon}}</i>
-                        <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onTick">
+                        <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onStateForwardClick">
                             fast_forward
                         </i>
                     </div>
@@ -33,13 +33,28 @@ TODO: Add bottom extra bar using tabs
                     <div id="mood-name" class="footer-el">{{currentMood.name}}</div>
 
                     <div id="expand-btns" class="footer-el">
-                        <i class="material-icons" v-on:click="disabledBtn">info</i>
-                        <i class="material-icons" v-on:click="disabledBtn">settings</i>
+                        <i class="material-icons">settings</i>
                     </div>
                 </div>
 
-                <div id="expanded-footer">
-                    <div id="expanded-name">{{prettyExpandedName}}</div>
+                <div class="mdl-tabs mdl-js-tabs" id="details-footer">
+                    <div class="mdl-tabs__tab-bar">
+                        <a href="#information-tab" class="mdl-tabs__tab">Information</a>
+                        <a href="#settings-tab" class="mdl-tabs__tab">Settings</a>
+                    </div>
+
+                    <div class="mdl-tabs__panel is-active" id="information-tab">
+                        <div class="tab-name">Information:</div>
+                        <div class="tab-content">
+                            <div class="mood-bubble">
+                                {{currentMood.emoji}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mdl-tabs__panel" id="settings-tab">
+                        Settings tab!
+                    </div>
                 </div>
             </div>
         </div>
