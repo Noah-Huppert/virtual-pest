@@ -15,54 +15,7 @@ TODO: Add bottom extra bar using tabs
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
     </head>
     <body>
-        <div id="app">
-            <div id="img-container">
-                <img id="mood-img" v-bind:src="currentMood.src">
-            </div>
 
-            <div id="bottom">
-                <div id="footer">
-                    <div id="state-ctrl" class="footer-el">
-                        <i id="state-backward" v-bind:class="stateCtrlBtnClass">fast_rewind</i>
-                        <i id="state-toggle" class="material-icons" v-on:click="toggleStepMode">{{stateCtrlModeIcon}}</i>
-                        <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onStateForwardClick">
-                            fast_forward
-                        </i>
-                    </div>
-
-                    <div id="mood-name" class="footer-el">{{currentMood.name}}</div>
-
-                    <div id="expand-btns" class="footer-el">
-                        <i class="material-icons">settings</i>
-                    </div>
-                </div>
-
-                <div class="mdl-tabs mdl-js-tabs" id="details-footer">
-                    <div class="mdl-tabs__tab-bar">
-                        <a href="#information-tab" class="mdl-tabs__tab">Information</a>
-                        <a href="#settings-tab" class="mdl-tabs__tab">Settings</a>
-                    </div>
-
-                    <div class="mdl-tabs__panel is-active" id="information-tab">
-                        <div class="tab-name">Information:</div>
-                        <div class="tab-content">
-                            <div class="mood-bubble">
-                                {{currentMood.emoji}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mdl-tabs__panel" id="settings-tab">
-                        Settings tab!
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mdl-snackbar mdl-js-snackbar">
-            <div class="mdl-snackbar__text"></div>
-            <button type="button" class="mdl-snackbar__action"></button>
-        </div>
 
         <script src="js/script.js"></script>
     </body>

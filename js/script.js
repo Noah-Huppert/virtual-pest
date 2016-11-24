@@ -1,109 +1,121 @@
 "use strict";
 
-// Array of moods
-var moods = [
-    "hungry",
-    "thirsty",
-    "happy",
-    "sad",
-    "tired"
-];
-/*
-var moods = [
+/**
+ * An object which holds the configuration for one state
+ *
+ * @typedef {object} StateConf
+ * @property {string} id - State identifier
+ * @property {float} weight - Multiplied times probabilities.self, used to create dynamic behavior
+ * @property {object} probabilities - Object which holds probabilities that machine will transition
+ *                                    from its current state to a new one.
+ *                                    Keys = State id, value: probability 0.0 - 1.0
+ *
+ *                                    All values must add up to 1.0, ignoring the mandatory "self"
+ *                                    value which may be from 0.0 - 1.0 and is not included in the
+ *                                    grand total.
+ *
+ *                                    The "self" key is required and represents the probability
+ *                                    (from 0.0 - 1.0) that the machine will stay on the current state
+ */
+
+/**
+ * List of state configurations
+ * @type {StateConf[]}
+ */
+var states = [
     {
-
+        id: "hungry",
+        weight: 1.0,
+        probabilities: {
+            self: 0.8,
+            thirsty: 0.35,
+            happy: 0.1,
+            sad: 0.2,
+            tired: 0.35
+        }
+    },
+    {
+        id: "thirsty",
+        weight: 1.0,
+        probabilities: {
+            self: 0.7,
+            hungry: 0.4,
+            happy: 0.1,
+            sad: 0.3,
+            tired: 0.2
+        }
+    },
+    {
+        id: "happy",
+        weight: 1.0,
+        probabilities: {
+            self: 0.5,
+            hungry: 0.3,
+            thirsty: 0.2,
+            sad: 0.1,
+            tired: 0.4
+        }
+    },
+    {
+        id: "sad",
+        weight: 1.0,
+        probabilities: {
+            self: 0.3,
+            hungry: 0.25,
+            thirsty: 0.25,
+            happy: 0.1,
+            tired: 0.4
+        }
+    },
+    {
+        id: "tired",
+        weight: 1.0,
+        probabilities: {
+            self: 0.5,
+            hungry: 0.4,
+            thirsty: 0.1,
+            happy: 0.1,
+            sad: 0.4
+        }
     }
 ];
-*/
-
-var _defaultStepDuration = 2000;
-var stepInterval = setInterval(onTick, _defaultStepDuration);
-
-var app = new Vue({
-    el: "#app",
-    data: {
-        currentMood: { name: "", src: "", i: 0 },
-
-        // Either "auto" (Steps every x seconds) or "manual" which requires button presses
-        stepMode: "auto",
-        stepDuration: _defaultStepDuration,
-        stateCtrlBtnClass: "material-icons inactive",
-        stateCtrlModeIcon: "pause",
-
-        expanded: undefined,
-        prettyExpandedName: ""
-    },
-    methods: {
-        onTick: onTick,
-        toggleStepMode: function() {
-            var el = document.getElementById("state-toggle");
-            el.classList.add("animation-spin");
-            setTimeout(function() {
-                el.classList.remove("animation-spin");
-            }, 1000);
-
-            setTimeout(function() {
-                app.stepMode = (app.stepMode === "auto" ? "manual" : "auto");
-            }, 250);
-        },
-        onStateForwardClick: function() {
-            if (this.stepMode === "manual") {
-                onTick();
-            }
-        }
-    },
-    watch: {
-        stepMode: function(newVal, oldVal) {
-            if (this.stepMode === "auto") {
-                /*
-                 * The animation that takes place in #state-ctrl when changing step modes
-                 * is 1000ms long. In app.methods.toggleStepMode the actual value of stepMode
-                 * is changed at 250ms in the animation for the best visual look. However the user
-                 * does not perceive stepMode as being changed until the 1000ms animation is complete
-                 * so we will not start stepping until the animation is complete, aka 750ms.
-                 */
-                setTimeout(function() {
-                    stepInterval = setInterval(onTick, app.stepDuration);
-                }, 750);
-            } else {
-                clearInterval(stepInterval);
-            }
-
-            this.stateCtrlBtnClass = "material-icons" +
-                (this.stepMode === "auto" ? " inactive" : "");
-
-            this.stateCtrlModeIcon = (this.stepMode === "auto" ? "pause" : "play_arrow")
-        },
-        expanded: function(newVal, oldVal) {
-            this.prettyExpandedName = this.expanded.charAt(0).toUpperCase() + this.expanded.slice(1);
-        }
-    }
-});
 
 /**
- * Represents a "tick" in the mood cycle system. The mood
- * is calculated on each "tick".
+ * Configuration for a stimulus
+ * @typedef {object} StimulusConf
+ * @property {string} id - Stimulus identifier
+ * @property {string} state - State this stimulus effects
+ * @property {float} effect - How much the stimulus effects the state
  */
-function onTick() {
-    // Increment to next mood or reset back to beginning if at end
-    if (app.currentMood.i < moods.length - 1) {
-        app.currentMood.i++;
-    } else {
-        app.currentMood.i = 0;
-    }
-
-    setMood(app.currentMood.i);
-}
 
 /**
- * Set mood to given index
- * @param i Index of mood to set
+ * List of stimuli config
+ * @type {StimulusConf[]}
  */
-function setMood(i) {
-    var mood = moods[i];
-    app.currentMood.name = mood.charAt(0).toUpperCase() + mood.slice(1);
-    app.currentMood.src = "img/states/" + mood + "/" + mood + ".png";
-}
-
-setMood(0);
-
+var stimuli = [
+    {
+        id: "food",
+        state: "hungry",
+        effect: -0.2
+    },
+    {
+        id: "drink",
+        state: "thirsty",
+        effect: -0.4
+    },
+    {
+        id: "election-results",
+        state: "happy",
+        effect: -0.7,
+    },
+    {
+        id: "balloons",
+        state: "sad",
+        effect: -0.3
+    },
+    {
+        id: "energy-drink",
+        state: "tired",
+        effect: -0.35
+    }
+];

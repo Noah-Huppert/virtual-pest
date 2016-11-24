@@ -1,0 +1,33 @@
+<?xml version="1.0"?><svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <title>emmas blue balloons</title>
+ <defs>
+  <linearGradient id="linearGradient14806">
+   <stop stop-color="#a0dfff" offset="0" id="stop14808"/>
+   <stop stop-color="#00a6d4" stop-opacity="0.980392" offset="1" id="stop14810"/>
+  </linearGradient>
+  <radialGradient r="21.995041" fy="897.65686" fx="125.69643" cy="897.65686" cx="125.69643" gradientTransform="matrix(0.929482, -0.123076, 0.227467, 1.71786, 12.2587, -1512.91)" gradientUnits="userSpaceOnUse" id="radialGradient6988" xlink:href="#linearGradient14806"/>
+  <radialGradient r="352.85715" fy="540.67529" fx="236.82372" cy="540.67529" cx="236.82372" spreadMethod="pad" gradientTransform="matrix(0.166798, 0.220731, -0.227389, 0.171829, 234.881, -4.66496)" gradientUnits="userSpaceOnUse" id="radialGradient6990" xlink:href="#linearGradient14806"/>
+  <radialGradient fy="0.34375" fx="0.308594" r="0.5" cy="0.34375" cx="0.308594" id="svg_5">
+   <stop stop-color="#aad4ff" offset="0"/>
+   <stop stop-color="#005fbf" offset="1"/>
+  </radialGradient>
+  <radialGradient fy="0.371094" fx="0.332031" r="0.5" cy="0.371094" cx="0.332031" id="svg_6">
+   <stop stop-color="#ceffff" offset="0"/>
+   <stop stop-color="#00ffff" offset="1"/>
+  </radialGradient>
+ </defs>
+ <metadata id="metadata5901">image/svg+xmlBallonsballonpartybirthdaykidsheliumThree ballons (red,blue and orange) attatched together.Carlos Asmat</metadata>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#005fbf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" id="path14767" d="m104.42662,254.143829c2.234764,-0.268173 17.755508,20.446594 16.870361,22.515991c-0.885132,2.069519 -26.584999,5.153473 -27.934624,3.352173c-1.349632,-1.801239 8.829491,-25.599976 11.064262,-25.868164z"/>
+  <path fill="url(#svg_5)" stroke-width="5.255319" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" d="m189.670395,146.769867c0,47.339569 -42.277145,118.016235 -85.760086,118.016235c-44.773197,0 -85.760094,-70.676666 -85.760094,-118.016235c0,-47.339561 38.420528,-90.921062 85.760094,-90.921062c47.339569,0 85.760086,43.581501 85.760086,90.921062z" id="path14753"/>
+  <path fill="none" fill-rule="evenodd" stroke="#816647" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-mid="none" marker-end="none" stroke-miterlimit="4" d="m97.330414,265.111053c5.401642,-1.114288 9.197556,-2.252991 16.287857,-0.604797c8.718323,103.130188 64.981079,151.472504 89.304092,244.409058c1.891861,7.228668 -0.898056,19.215668 0.62883,26.971771" id="path14790"/>
+  <path fill="#00ffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" id="path14822" d="m286.369751,212.252365c2.234741,-0.268173 17.755493,20.446548 16.870361,22.515991c-0.885132,2.069458 -26.585022,5.153442 -27.934631,3.352158c-1.34964,-1.80127 8.829498,-25.600006 11.06427,-25.868149z"/>
+  <path fill="url(#svg_6)" stroke-width="5.255319" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" d="m371.613464,104.878128c0,47.339569 -42.277161,118.016235 -85.760071,118.016235c-44.773193,0 -85.760101,-70.676666 -85.760101,-118.016235c0,-47.339561 38.420517,-90.921066 85.760101,-90.921066c47.339539,0 85.760071,43.581505 85.760071,90.921066z" id="path14824"/>
+  <path fill="none" fill-rule="evenodd" stroke="#816647" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-start="none" marker-end="none" stroke-miterlimit="4" d="m279.273499,223.219315c5.401581,-1.114304 9.19751,-2.252991 16.287842,-0.604782c-13.582489,140.861877 -70.037033,171.401703 -87.361221,286.45401c-0.313126,2.079437 0.966141,10.685608 2.96785,26.565002" id="path14826"/>
+  <path fill="url(#radialGradient6988)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" d="m185.711945,272.207092c2.234772,-0.268158 17.755508,20.446594 16.870361,22.515991c-0.885132,2.069519 -26.584991,5.153473 -27.934616,3.352173c-1.34964,-1.801239 8.829483,-25.599976 11.064255,-25.868164z" id="path14796"/>
+  <path fill="url(#radialGradient6990)" stroke-width="5.255319" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" id="path14798" d="m270.955872,164.833313c0,47.339569 -42.27713,118.016235 -85.760086,118.016235c-44.773209,0 -85.760101,-70.676666 -85.760101,-118.016235c0,-47.339577 38.420517,-90.921074 85.760101,-90.921074c47.339554,0 85.760086,43.581497 85.760086,90.921074z"/>
+  <path fill="none" fill-rule="evenodd" stroke="#816647" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="none" stroke-miterlimit="4" id="path14800" d="m178.615891,283.1745c5.401642,-1.114319 9.197556,-2.252991 16.287857,-0.604797c8.059769,72.029449 23.388931,130.707825 10.954514,225.316681c-0.313522,3.004486 1.549316,18.025543 1.153351,28.411041"/>
+  <path fill="#816647" fill-rule="evenodd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" d="m205.576187,509.296783c-0.687851,0.085785 -0.927399,0.270477 -2.973663,0.538849c-0.529068,-0.011047 -0.966873,0.408936 -0.977905,0.937988c-0.011032,0.529083 0.408936,0.966888 0.938004,0.977936c-0.290955,0.212891 -0.66095,0.608185 -0.618683,1.157501c0.024704,0.321472 0.250229,0.634033 0.459015,0.79834c-0.006638,0.049072 -0.03154,0.084534 -0.039917,0.139709c-0.058365,0.38385 -0.132584,0.889587 -0.219528,1.596558c-0.066132,0.529053 0.309143,1.011597 0.838211,1.077698c0.529068,0.066162 1.011581,-0.309143 1.077698,-0.838196c0.050873,-0.413574 0.083115,-0.61615 0.119751,-0.898071c0.395279,0.180725 0.856674,0.317444 1.436935,0.299316c1.039856,-0.03241 2.287567,-0.477356 3.891708,-1.596558c0.282486,-0.191101 0.442108,-0.517944 0.419113,-0.858215c-0.025055,-0.346558 -0.277786,-0.688202 -0.498947,-0.838165c-0.045059,-0.030579 -0.077774,-0.017639 -0.119736,-0.039917c0.288681,-0.22403 0.623901,-0.623535 0.578766,-1.157532c-0.03096,-0.442108 -0.36113,-0.805328 -0.798309,-0.878143c-2.288879,-0.379547 -2.824661,-0.504913 -3.512512,-0.419098z" id="path6930"/>
+ </g>
+</svg>
