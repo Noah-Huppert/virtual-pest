@@ -119,3 +119,36 @@ var stimuli = [
         effect: -0.35
     }
 ];
+
+// Custom HTML components declaration using VueJS
+// Documentation on VueJS Components: https://vuejs.org/v2/guide/components.html
+/**
+ * Pest State custom component. Displays media to represent
+ * the pest state provided.
+ */
+Vue.component("x-state", {
+    // Declare properties that custom element can accept
+    props: {
+        // {string} state - Id of state to display
+        state: {
+            type: String,
+            required: true
+        }
+    },
+    // HTML to display for component
+    template: '<img class="x-state-img" v-bind:src="mediaUrl" />',
+    // Data properties
+    computed: {
+        /**
+         * Function which computes the value for the `mediaUrl` variable.
+         * @returns {string} The path to the state image.
+         */
+        mediaUrl: function() {
+            return "img/states/" + this.state + "/" + this.state + ".png";
+        }
+    }
+});
+
+var app = new Vue({
+    el: "#app"
+});
