@@ -3,7 +3,7 @@
     <head>
         <title>Virtual Pest</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Oswald|Material+Icons" rel="stylesheet">
+        <link href="css/lib/g-fonts.css" rel="stylesheet">
         <link href="css/lib/material.min.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
 
@@ -11,9 +11,22 @@
         <!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
     </head>
     <body>
-        <div id="app">
-            <x-state state="happy">s</x-state>
+        <div id="stimuli-layout">
+            <div id="stimuli-header">
+                Stimuli
+                <div id="stimuli-sub-header">(Just click)</div>
+            </div>
+            <div id="stimuli-content"></div>
         </div>
+
+        <div id="state-img-container">
+            <img id="state-img" src="" />
+        </div>
+
+        <div id="state-details-layout">
+            <div id="current-state"></div>
+        </div>
+
         <script src="js/script.js"></script>
     </body>
 </html>

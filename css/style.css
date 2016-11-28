@@ -1,9 +1,102 @@
 body {
-    min-height: 0 !important;
+    height: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
     background: #2A7DFF;
     font-family: 'Oswald', sans-serif;
 }
 
-//
+#state-img-container {
+    width: calc(100% - 300px);
+    height: 400px;
+    float: right;
+    text-align: center;
+    display: inline-block;
+}
+
+#state-img {
+    height: 100%;
+}
+
+#stimuli-layout {
+    width: 300px;
+    height: calc(100% - 80px);
+    padding-top: 80px;
+    background: #FFFFFF;
+    display: inline-block;
+    overflow-y: scroll;;
+    text-align: center;
+}
+
+#stimuli-header {
+    width: 300px;
+    height: 75px;
+    padding-top: 10px;
+    position: fixed;
+    top: 0px;
+    background: #FFFFFF;
+    font-size: 36px;
+    text-align: center;
+}
+
+#stimuli-sub-header {
+    margin-top: 15px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
+.stimulus {
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.stimulus:first-of-type {
+    margin-top: 20px;
+}
+
+.stimulus img {
+    height: 100px;
+}
+
+#stimuli-content {
+    width: 100%;
+}
+
+.stimulus-name {
+    height: 30px;
+    line-height: 30px;
+    font-size: 24px;
+}
+
+.stimulus-effect {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+}
+
+.stimulus-effect div {
+    display: inline-block;
+}
+
+.stimulus-effect .sign {
+    font-size: 36px;
+    top: 5px;
+    position: relative;
+}
+
+#state-details-layout {
+
+}
+
+#current-state {
+    width: calc(100% - 300px);
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    top: -40px;
+    float: right;
+    font-size: 36px;
+    text-align: center;
+    color: #FFFFFF;
+}
