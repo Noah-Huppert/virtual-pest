@@ -79,10 +79,19 @@ body {
     display: inline-block;
 }
 
-.stimulus-effect .sign {
-    font-size: 36px;
-    top: 5px;
-    position: relative;
+.ui-verb {
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 3px;
+    color: #FFFFFF;
+}
+
+.helps {
+    background: #13DB21;
+}
+
+.causes {
+    background: #DB135E;
 }
 
 #state-details-layout {

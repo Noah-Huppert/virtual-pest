@@ -3,6 +3,27 @@
 // HTML elements for future use
 var stateImgEl = document.getElementById("state-img");
 var currentStateEl = document.getElementById("current-state");
+var detailsEl = document.getElementById("details");
+
+/**
+ * Searches an array of objects for the first object with a specific key value
+ * pair and returns its index. If an object can not be found then an error is thrown with the provided
+ * text.
+
+ * @param targets {object} Object to search
+ * @param targetKey {string} Key to look for
+ * @param targetValue {*} Value to look for, could be anything
+ * @param errorText {string} Text of error thrown if key cannot be found
+ */
+function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
+    for (var i = 0; i < targets.length; i++) {
+        if (targets[i][key] === targetValue) {
+            return i;
+        }
+    }
+
+    throw new Error(errorText);
+}
 
 /**
  * An object which holds the configuration for one state
@@ -84,6 +105,9 @@ var states = [
  * @typedef {object} StimulusConf
  * @property {string} id - Stimulus identifier
  * @property {string} state - State this stimulus effects
+ * @property {string} uiVerb - Verb to describe effect stimulus has on state.
+ * Used in the UI.
+ * @property {string} conjugatedState - Name of state conjugated to use with uiVerb.
  * @property {float} effect - How much the stimulus effects the state
  */
 
@@ -95,26 +119,36 @@ var stimuli = [
     {
         id: "food",
         state: "hungry",
+        uiVerb: "helps",
+        conjugatedState: "hunger",
         effect: -0.2
     },
     {
         id: "drink",
         state: "thirsty",
+        uiVerb: "helps",
+        conjugatedState: "thirst",
         effect: -0.4
     },
     {
         id: "election-results",
         state: "sad",
+        uiVerb: "causes",
+        conjugatedState: "sadness",
         effect: -0.7,
     },
     {
         id: "balloons",
         state: "happy",
+        uiVerb: "causes",
+        conjugatedState: "happyness",
         effect: -0.3
     },
     {
         id: "energy-drink",
         state: "tired",
+        uiVerb: "helps",
+        conjugatedState: "tiredness",
         effect: -0.35
     }
 ];
@@ -263,7 +297,7 @@ function State(statesConf, stimuliConf) {
      *     - `ranges` - An object which holds a series of values, 0.0 from
      *     1.0,
      */
-    self.calcRanges = function() {
+    self.calcRanges = function(id) {
         // Convenience vars
         var state = self.states[self.currentStateI];
         var parameters = state.probabilities.parameters;
@@ -307,6 +341,25 @@ function State(statesConf, stimuliConf) {
 
         // Current state label
         currentStateEl.innerText = prettifyString(self.currentStateId);
+
+        // Details
+        var html = "";
+
+        for (var i = 0; i < self.states.length; i++) {
+            var state = self.states[i];
+
+            html += "<div class=\"state-details\">";
+
+            html += "<div class=\"title\">" + prettifyString(state.id) + "</div>";
+
+            for (var key in state.probabilities.ranges) {
+                
+            }
+
+            html += "</div>";
+        }
+
+        detailsEl.innerHTML = html;
     };
 
     /**
@@ -315,33 +368,19 @@ function State(statesConf, stimuliConf) {
      */
     self.applyStimulus = function(id) {
         // Find stimulus config that we clicked on
-        var stimulus;
-        for (var i = 0; i < self.stimuli.length; i++) {
-            var s = self.stimuli[i];
-            if (s.id === id) {
-                stimulus = s;
-                break;
-            }
-        }
-
-        if (stimulus === undefined) {
-            throw new Error("Can not find stimulus with id: \"" + id + '\"');
-        }
+        var stimulus = kvSearchOrThrow(self.stimuli, "id", id, "Cannot find stimulus with id: \"" + id + "\"");
 
         // Find state stimulus refers to
-        var state;
-        for (var i = 0; i < self.states.length; i++) {
-            var s = self.states[i];
-            if (s.id === stimulus.state) {
-                state = s;
-                break;
-            }
-        }
+        var state = kvSearchOrThrow(self.states, "id", stimulus.state, "Cannot find state specified in stimulus with id: \"" + id + "\"");
 
-        // Apply state effect
-        // The State self probability is multiplied by the modifier
-        // Adding the
+        /* Apply state effect
+        The State self probability is multiplied by the modifier
+
+        Adding the effect to the modifier will then output the result of the
+        state self probability
+        */
         state.probabilities.parameters.self.modifier += stimulus.effect;
+
     };
 
     // Map first state
@@ -385,8 +424,11 @@ for (var i = 0; i < stimuli.length; i++) {
 
     html += "<div class=\"stimulus-effect\">";
 
-    html += "<div class=\"sign\">" + (stimulus.effect < 0 ? "+" : "") + "</div>";
-    html += (stimulus.effect * -1) + " "  + prettifyString(stimulus.state);
+    html += "<div class=\"ui-verb "  + stimulus.uiVerb + "\">";
+    html += prettifyString(stimulus.uiVerb);
+    html += "</div>";
+
+    html += " " + prettifyString(stimulus.conjugatedState) + " (" + (-1 * stimulus.effect) + ")";
 
     html += "</div>";
 
