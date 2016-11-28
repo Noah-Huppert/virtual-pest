@@ -294,7 +294,6 @@ function State(statesConf, stimuliConf) {
             state.probabilities._lastRangesCalcModVal = parameters.self.modifier;
 
             // Store most recent version of state
-            console.log(state);
             self.states[self.currentStateI] = state;
         }
     };
@@ -343,7 +342,6 @@ function State(statesConf, stimuliConf) {
         // The State self probability is multiplied by the modifier
         // Adding the
         state.probabilities.parameters.self.modifier += stimulus.effect;
-        console.log(state.probabilities.parameters.self.modifier);
     };
 
     // Map first state
