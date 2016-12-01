@@ -33,14 +33,14 @@ function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
  * @property {float} weight - Multiplied times probabilities.self, used to create dynamic behavior
  * @property {object} probabilities - Object which holds probabilities that machine will transition
  *                                    from its current state to a new one.
- *                                    Keys = State id, value: probability 0.0 - 1.0
+ *                                    Keys = State id, value: probability 0 - 100
  *
  *                                    All values must add up to 1.0, ignoring the mandatory "self"
- *                                    value which may be from 0.0 - 1.0 and is not included in the
+ *                                    value which may be from 0 - 100 and is not included in the
  *                                    grand total.
  *
  *                                    The "self" key is required and represents the probability
- *                                    (from 0.0 - 1.0) that the machine will stay on the current state
+ *                                    (from 0 - 100) that the machine will stay on the current state
  * @property {string} uiColor - Hex color code of color that represents state in
  * the ui
  */
@@ -53,55 +53,55 @@ var states = [
     {
         id: "hungry",
         probabilities: {
-            self: 0.8,
-            thirsty: 0.35,
-            happy: 0.1,
-            sad: 0.2,
-            tired: 0.35
+            self: 80,
+            thirsty: 35,
+            happy: 10,
+            sad: 20,
+            tired: 35
         },
-        uiColor: "#0BE560"
+        uiColor: "#E24928"
     },
     {
         id: "thirsty",
         probabilities: {
-            self: 0.7,
-            hungry: 0.4,
-            happy: 0.1,
-            sad: 0.3,
-            tired: 0.2
+            self: 70,
+            hungry: 40,
+            happy: 10,
+            sad: 30,
+            tired: 20
         },
         uiColor: "#0BB1E5"
     },
     {
         id: "happy",
         probabilities: {
-            self: 0.5,
-            hungry: 0.3,
-            thirsty: 0.2,
-            sad: 0.1,
-            tired: 0.4
+            self: 50,
+            hungry: 30,
+            thirsty: 20,
+            sad: 10,
+            tired: 40
         },
         uiColor: "#23E726"
     },
     {
         id: "sad",
         probabilities: {
-            self: 0.3,
-            hungry: 0.25,
-            thirsty: 0.25,
-            happy: 0.1,
-            tired: 0.4
+            self: 30,
+            hungry: 25,
+            thirsty: 25,
+            happy: 10,
+            tired: 40
         },
         uiColor: "#490BE5"
     },
     {
         id: "tired",
         probabilities: {
-            self: 0.5,
-            hungry: 0.4,
-            thirsty: 0.1,
-            happy: 0.1,
-            sad: 0.4
+            self: 50,
+            hungry: 40,
+            thirsty: 10,
+            happy: 10,
+            sad: 40
         },
         uiColor: "#E50BB3"
     }
@@ -179,35 +179,44 @@ function State(statesConf, stimuliConf) {
         var conf = statesConf[i];
 
         // State object to be added
+        /**
+         * Object which represents a possible state
+         *
+         * @typedef {object} State
+         * @property {number} id - State id
+         * @property {string} uiColor - Color state will be represented in, Hex format
+         * @property {object} probabilities - Object which holds all configuration pertaining to the probabilities for
+         * the next state
+         * @property {object} probabilities.parameters - Values used to tune computation of _ranges object
+         * @property {object} probabilities.parameters.self - Values related to the next state being the same as the
+         * current one (aka, "self")
+         * @property {number} probabilities.parameters.self.value - Probability (0 - 100) that the next state will be
+         * self.
+         * @property {number} probabilities.parameters.self.modifier - Value tweaked by stimuli to make behavior dynamic
+         * @property {object} probabilities.parameters.switch - Values related to the next state being different than
+         * the current. Holds KV pair for every other state where key is the state id and value is the probability (0
+         * - 100) that the next state will be the key.
+         * @property {object] probabilities._ranges - Holds a value for each state (0 - 100) which is an upper bound of
+         * a range for that state. The lower bound of this range is the previous value in the ranges object
+         * (Numerically, not by index), and zero if already the lowest value. These values create the probability
+         * distribution used for the calculation of the next state.
+         * @property {number} _lastRangesCalcModVal - Holds the value of `probabilities.parameters.self.modifier` from
+         * the last time `probabilities._ranges` was calculated. The method which calculates `probabilities._ranges` will
+         * check this value to make sure it is different from the current `modifier` value. If the value is not
+         * different said method won't recalculate it and do any extra work.
+         */
         var state = {
-            // State Id
             id: conf.id,
-
-            // Color to display in UI
             uiColor: conf.uiColor,
-
-            // All values for probabilities
             probabilities: {
-
-                // Values used to calculate the actual probability values
                 parameters: {
-
-                    // Probability that state will stay the same (Change to its *self*)
                      self: {
-                         // Probability is calculated with value * modifier
                          value: conf.probabilities.self,
                          modifier: 1.0
                     },
-
-                    // Holds probability values that state will *switch*
                     switch: {}
                 },
-
-                // Calculated probability values go here
-                ranges: {},
-
-                // Keep track of the `probabilities.parameters.self.modifier` value so we
-                // don't have to update if there isn't a change
+                _ranges: {},
                 _lastRangesCalcModVal: -1
             }
         };
@@ -233,18 +242,15 @@ function State(statesConf, stimuliConf) {
      * state and determine the next state.
      */
     self.step = function() {
-        // Calculate probability ranges
-        self.calcRanges();
-
         // Find next state
         var state = self.states[self.currentStateI];
 
-        var random = Math.random();
+        var random = Math.random() * 100;
 
         var lastValue = 0;// Used as lower bound
         var nextStateId = "";
-        for (var key in state.probabilities.ranges) {
-            var value = state.probabilities.ranges[key];// Used as upper bound
+        for (var key in self.getLatestRanges(state)) {
+            var value = self.getLatestRanges(state)[key];// Used as upper bound
 
             // If value is within range
             if (random > lastValue && random <= value) {
@@ -259,7 +265,6 @@ function State(statesConf, stimuliConf) {
         // Set next state
         if (nextStateId !== "self") {// If next state is "self" than don't change a thing
             self.currentStateId = nextStateId;
-            var nextStateI = -1;
 
             var i = 0;
             for (var key in self.states) {
@@ -272,6 +277,17 @@ function State(statesConf, stimuliConf) {
 
             self._mapDOM();
         }
+
+        // Add to modifiers
+        for (var i = 0; i < self.states.length; i++) {
+            var state = self.states[i];
+
+            if(state.probabilities.parameters.self.modifier < 1) {
+                state.probabilities.parameters.self.modifier += 0.05;
+            }
+
+            self.states[i] = state;
+        }
     };
 
     /**
@@ -283,63 +299,62 @@ function State(statesConf, stimuliConf) {
      * being the same as the current state (Because the next state turns into
      * its "self").
      *
-     * This function looks at the current state object, more
-     * particularly the values in `probabilities.parameters`. It uses those
-     * values to compute the values for `probabilities.ranges`.
-     *
-     * Explanation of values:
-     * - `probabilities` - Values related to state changes
-     *     - `parameters` - Values that tune the generation process
-     *     for the values in `ranges`
-     *         - `self` - Values related to the next state being
-     *         the same as the current
-     *             - `modifier` - Value that program tweaks to make `self`
-     *             range change on user input
-     *             - `value` - Probability (0.0 - 1.0) that next state will
-     *             be "self"
-     *         - `switch` - Values related to the next state being
-     *         different from the current state
-     *             - This is a object which contains a key for every other mood
-     *             (ex., "happy" or "sad" if state is "hungry")
-     *             - The values of these keys is the same as the `self.value`
-     *             value. It is the probability (0.0 - 1.0) that the next state
-     *             will be the state identified in the key
-     *     - `ranges` - An object which holds a series of values, 0.0 from
-     *     1.0,
+     * This function looks at a state object, more particularly the values in `probabilities.parameters`. It uses those
+     * values to compute the values for `probabilities._ranges`.
+
+     * @param {State} state - State to calculate ranges for
+     * @returns {State} - State with new ranges calculated
      */
-    self.calcRanges = function(id) {
+    self._calcRanges = function(state) {
         // Convenience vars
-        var state = self.states[self.currentStateI];
         var parameters = state.probabilities.parameters;
 
-        // Make sure we haven't already calculated the values
-        if (state.probabilities._lastRangesCalcModVal !== parameters.self.modifier) {
-            // Calculate self value
-            var selfValue = parameters.self.value * parameters.self.modifier;
+        // Calculate self value
+        var selfValue = parameters.self.value * parameters.self.modifier;
 
-            // Calculate switch values
-            var switchSpace = 1 - selfValue;// Space available for range after big switch value
-            var switchValues = {};
+        // Calculate switch values
+        var switchSpace = 100 - (selfValue < 0 ? 0 : selfValue);// Space available for range after big switch value
+        var switchValues = {};
 
-            for (var key in parameters.switch) {
-                switchValues[key] = parameters.switch[key] * switchSpace;
-            }
-
-            // Assign values
-            var runningRange = 0;
-            for (var key in switchValues) {
-                runningRange += switchValues[key];
-                state.probabilities.ranges[key] = runningRange;
-            }
-
-            state.probabilities.ranges["self"] = 1.0;
-
-            // Mark that we have calculated the values for this case
-            state.probabilities._lastRangesCalcModVal = parameters.self.modifier;
-
-            // Store most recent version of state
-            self.states[self.currentStateI] = state;
+        for (var key in parameters.switch) {
+            switchValues[key] = (parameters.switch[key] / 100) * switchSpace;
         }
+
+        // Assign values
+        var runningRange = 0;
+        for (var key in switchValues) {
+            runningRange += switchValues[key];
+            state.probabilities._ranges[key] = runningRange;
+        }
+
+        state.probabilities._ranges["self"] = 100;
+
+        // Mark that we have calculated the values for this case
+        state.probabilities._lastRangesCalcModVal = parameters.self.modifier;
+
+        return state;
+    };
+
+    /**
+     * Helper function which calculates, if needed, and then returns the `probabilities._ranges` field from the `State`
+     * type.
+     *
+     * Checks {@link State#probabilities._lastRangesCalcModVal} against {@link State#probabilities.parameters.self.modifier}
+     * to see if it has changed. Since {@link State#probabilities.parameters.self.modifier} is the only value that is
+     * changed during program operation it is also the only value which can change the value of {@link State#probabilities._ranges}.
+     * If it has changed then {@link State#probabilities._ranges} will be recalculated, if not then {@link State#probabilities._ranges}
+     * is returned without any extra work.
+     *
+     * @param {State} state - State to get latest ranges for
+     * @returns {object} - Latest value of ranges field
+     */
+    self.getLatestRanges = function(state) {
+        // If changed
+        if (state.probabilities._lastRangesCalcModVal !== state.probabilities.parameters.self.modifier) {
+            state = self._calcRanges(state);
+        }
+
+        return state.probabilities._ranges;
     };
 
     /**
@@ -374,6 +389,7 @@ function State(statesConf, stimuliConf) {
 
         html += "</div>";
 
+        // Show state probabilities
         for (var i = 0; i < self.states.length; i++) {
             var state = self.states[i];
 
@@ -381,14 +397,52 @@ function State(statesConf, stimuliConf) {
 
             html += "<div class=\"title\">" + prettifyString(state.id) + "</div>";
 
+            // Show probabilities
             html += "<div class=\"probabilities-bar\">";
-            console.log(state.probabilities.ranges);
-            for (var key in state.probabilities.ranges) {
-                var widthValue = state.probabilities.ranges[key] * 100;
-                html += "<div style=\"width: " + widthValue + "%\"></div>";
-            }
-            html += "</div>";
 
+            var ranges = self.getLatestRanges(state);
+
+            var rangesHtml = {};
+            var lastUpperBound = 0;
+            for (var key in ranges) {
+                // Calculate size of range
+                var upperBound = ranges[key];
+                var lowerBound = lastUpperBound;
+
+                var range = upperBound - lowerBound;
+
+                if (range < 0) {
+                    range = 0;
+                }
+
+                // Get current state's color
+                var currentState;
+                var extraHtml = "";
+
+                if (key !== "self") {
+                    var index = kvSearchOrThrow(self.states, "id", key, "Cannot find state with id: \"" + key + "\"");
+                    currentState = self.states[index];
+                } else {
+                    currentState = state;
+                    extraHtml = "class=\"self\"";
+                }
+
+                rangesHtml[key] = "<div " + extraHtml + " style=\"width: " + range + "%; background: " + currentState.uiColor + ";\">" + Math.round(range) + "</div>";
+
+                lastUpperBound = upperBound;
+            }
+
+            for (var j = 0; j < self.states.length; j++) {
+                var id = self.states[j].id;
+
+                if (id === state.id) {
+                    id = "self";
+                }
+
+                html += rangesHtml[id];
+            }
+
+            html += "</div>";
             html += "</div>";
         }
 
@@ -416,6 +470,12 @@ function State(statesConf, stimuliConf) {
         */
         state.probabilities.parameters.self.modifier += stimulus.effect;
 
+        if (state.probabilities.parameters.self.modifier < 0) {
+            state.probabilities.parameters.self.modifier = 0;
+        }
+
+        // Update UI
+        self._mapDOM();
     };
 
     // Map first state

@@ -97,7 +97,7 @@ body {
 #state-details-layout {
     width: calc(100% - 300px);
     position: relative;
-    top: -260px;
+    top: -384px;
     float: right;
 }
 
@@ -110,7 +110,8 @@ body {
 }
 
 #details {
-    height: 220px;
+    height: 320px;
+    padding: 10px;
     background: #FFFFFF;
 }
 
@@ -131,4 +132,19 @@ body {
 .key-item .name {
     margin-right: 10px;
     margin-left: 5px;
+}
+
+.state-details {
+    margin-top: 10px;
+}
+
+.probabilities-bar div {
+    display: inline-block;
+    color: white;
+    text-align: center;
+}
+
+.probabilities-bar .self {
+    border-top: solid gray 3px;
+    border-bottom: solid gray 3px;
 }
