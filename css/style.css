@@ -95,17 +95,40 @@ body {
 }
 
 #state-details-layout {
-
+    width: calc(100% - 300px);
+    position: relative;
+    top: -260px;
+    float: right;
 }
 
 #current-state {
-    width: calc(100% - 300px);
     height: 40px;
     line-height: 40px;
-    position: relative;
-    top: -40px;
-    float: right;
     font-size: 36px;
     text-align: center;
     color: #FFFFFF;
+}
+
+#details {
+    height: 220px;
+    background: #FFFFFF;
+}
+
+.key-item {
+    display: inline-block;
+}
+
+.key-item div {
+    display: inline-block;
+}
+
+.key-item .color {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+}
+
+.key-item .name {
+    margin-right: 10px;
+    margin-left: 5px;
 }

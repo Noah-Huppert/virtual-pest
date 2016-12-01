@@ -16,8 +16,9 @@ var detailsEl = document.getElementById("details");
  * @param errorText {string} Text of error thrown if key cannot be found
  */
 function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
+    console.log(targets, targetKey, targetValue, errorText);
     for (var i = 0; i < targets.length; i++) {
-        if (targets[i][key] === targetValue) {
+        if (targets[i][targetKey] === targetValue) {
             return i;
         }
     }
@@ -41,6 +42,8 @@ function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
  *
  *                                    The "self" key is required and represents the probability
  *                                    (from 0.0 - 1.0) that the machine will stay on the current state
+ * @property {string} uiColor - Hex color code of color that represents state in
+ * the ui
  */
 
 /**
@@ -56,7 +59,8 @@ var states = [
             happy: 0.1,
             sad: 0.2,
             tired: 0.35
-        }
+        },
+        uiColor: "#0BE560"
     },
     {
         id: "thirsty",
@@ -66,7 +70,8 @@ var states = [
             happy: 0.1,
             sad: 0.3,
             tired: 0.2
-        }
+        },
+        uiColor: "#0BB1E5"
     },
     {
         id: "happy",
@@ -76,7 +81,8 @@ var states = [
             thirsty: 0.2,
             sad: 0.1,
             tired: 0.4
-        }
+        },
+        uiColor: "#23E726"
     },
     {
         id: "sad",
@@ -86,7 +92,8 @@ var states = [
             thirsty: 0.25,
             happy: 0.1,
             tired: 0.4
-        }
+        },
+        uiColor: "#490BE5"
     },
     {
         id: "tired",
@@ -96,7 +103,8 @@ var states = [
             thirsty: 0.1,
             happy: 0.1,
             sad: 0.4
-        }
+        },
+        uiColor: "#E50BB3"
     }
 ];
 
@@ -175,6 +183,9 @@ function State(statesConf, stimuliConf) {
         var state = {
             // State Id
             id: conf.id,
+
+            // Color to display in UI
+            uiColor: conf.uiColor,
 
             // All values for probabilities
             probabilities: {
@@ -345,6 +356,25 @@ function State(statesConf, stimuliConf) {
         // Details
         var html = "";
 
+        // States UI Color key (As in map key)
+        html += "<div id=\"ui-colors-key\">";
+        html += "<div class=\"title\">Key</div>";
+
+        for (var i = 0; i < self.states.length; i++) {
+            var state = self.states[i];
+            var color = state.uiColor;
+            var name = prettifyString(state.id);
+
+            html += "<div class=\"key-item\">";
+
+            html += "<div class=\"color\" style=\"background: " + color + "\"></div>";
+            html += "<div class=\"name\">" + name + "</div>";
+
+            html += "</div>";
+        }
+
+        html += "</div>";
+
         for (var i = 0; i < self.states.length; i++) {
             var state = self.states[i];
 
@@ -352,9 +382,12 @@ function State(statesConf, stimuliConf) {
 
             html += "<div class=\"title\">" + prettifyString(state.id) + "</div>";
 
+            html += "<div class=\"probabilities-bar\">";
             for (var key in state.probabilities.ranges) {
-                
+                var widthValue = state.probabilities.ranges[key] * 100;
+                //html += "<div style=\"width: " + widthValue + "%\""
             }
+            html += "</div>";
 
             html += "</div>";
         }
@@ -367,10 +400,14 @@ function State(statesConf, stimuliConf) {
      * @param id Stimulus id
      */
     self.applyStimulus = function(id) {
+        console.log("applied", id);
+
         // Find stimulus config that we clicked on
+        console.log("applied - 1", id);
         var stimulus = kvSearchOrThrow(self.stimuli, "id", id, "Cannot find stimulus with id: \"" + id + "\"");
 
         // Find state stimulus refers to
+        console.log("applied - 2", id);
         var state = kvSearchOrThrow(self.states, "id", stimulus.state, "Cannot find state specified in stimulus with id: \"" + id + "\"");
 
         /* Apply state effect
@@ -402,7 +439,7 @@ function prettifyString(text) {
 // Create state instance
 var state = new State(states, stimuli);
 
-setInterval(function() {
+var interval = setInterval(function() {
     state.step();
 }, 1000);
 
@@ -440,6 +477,8 @@ document.getElementById("stimuli-content").innerHTML = html;
 // Click listener for stimuli
 function onStimulusElClick(self) {
     var id = self.getAttribute("data-stimulus-id");
+
+    console.log("clicked", id);
 
     state.applyStimulus(id);
 }
