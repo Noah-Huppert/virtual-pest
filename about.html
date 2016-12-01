@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Virtual Pest - About</title>
+    </head>
+    <body>
+        <b>How I met Bill</b>
+        <br>
+        I was just minding my own business when Bill latched himself onto my computer.
+        I don't really want him here but I can't get him off either. So I just decided
+        to make the best out of a bad situation and give him a nice place to live.
+        <br><br>
+        <b>States</b>
+        <ul>
+            <li>
+                Happy
+                <ul>
+                    <li>Bill is happy.</li>
+                    <li>You can make Bill more happy by giving him some balloons</li>
+                </ul>
+            </li>
+            <li>
+                Thirsty
+                <ul>
+                    <li>Bill requires liquid</li>
+                    <li>Try giving Bill a drink to make him less thirsty</li>
+                </ul>
+            </li>
+            <li>
+                Hungry
+                <ul>
+                    <li>Bill is hungry</li>
+                    <li>Give Bill food to make him less hungry</li>
+                </ul>
+            </li>
+            <li>
+                Sad
+                <ul>
+                    <li>Bill is sad, this happens a lot :(</li>
+                    <li>But if you show Bill some balloons he won't be sad anymore</li>
+                </ul>
+            </li>
+            <li>
+                Tired
+                <ul>
+                    <li>Bill is tired</li>
+                    <li>Give Bill an energy drink to wake him up.</li>
+                </ul>
+            </li>
+        </ul>
+        <br><br>
+        <b>Behind the scenes</b>
+        <br>
+        Behind the scenes Bill's state's are driven by Markov chains. Every second the Virtual
+        Pest calculates its next state. Each state has a set of probabilities associated with
+        changing to each other state (ex., if "hungry" there is a 20% chance Bill will be
+        "thirsty" next and 80% chance Bill will stay thirsty).
+
+        Each stimuli lessens the chance of a certain state occurring multiple times in a row. For
+        example the "Tired" state: Normally there is a 50% chance that Bill will remain tired in the
+        next state. By clicking the Energy Drink stimuli the chances of Bill being tired in the next
+        state is much less.
+        <br><br>
+        <a href="./docs"><b>Documentation</b></a>
+    </body>
+</html>

@@ -142,6 +142,7 @@ body {
     display: inline-block;
     color: white;
     text-align: center;
+    transition: width 1s;
 }
 
 .probabilities-bar .self {

@@ -10,7 +10,7 @@ var detailsEl = document.getElementById("details");
  * pair and returns its index. If an object can not be found then an error is thrown with the provided
  * text.
 
- * @param targets {object} Object to search
+ * @param targets {object} Objects to search
  * @param targetKey {string} Key to look for
  * @param targetValue {*} Value to look for, could be anything
  * @param errorText {string} Text of error thrown if key cannot be found
@@ -30,7 +30,6 @@ function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
  *
  * @typedef {object} StateConf
  * @property {string} id - State identifier
- * @property {float} weight - Multiplied times probabilities.self, used to create dynamic behavior
  * @property {object} probabilities - Object which holds probabilities that machine will transition
  *                                    from its current state to a new one.
  *                                    Keys = State id, value: probability 0 - 100
@@ -142,14 +141,14 @@ var stimuli = [
         state: "sad",
         uiVerb: "causes",
         conjugatedState: "sadness",
-        effect: -0.7,
+        effect: 0.7,
     },
     {
         id: "balloons",
         state: "happy",
         uiVerb: "causes",
         conjugatedState: "happyness",
-        effect: -0.3
+        effect: 0.3
     },
     {
         id: "energy-drink",
@@ -160,10 +159,12 @@ var stimuli = [
     }
 ];
 
+/** @class State */
+
 /**
  * Class which represents Virtual Pest's state
- * @param (StateConf[]} statesConf Array of states configuration
- * @param {StimulusConf[]} stimuliConf Array of stimuli configuration
+ * @param {StateConf[]} statesConf - Array of states configuration
+ * @param {StimulusConf[]} stimuliConf - Array of stimuli configuration
  * @constructor
  */
 function State(statesConf, stimuliConf) {
@@ -196,7 +197,7 @@ function State(statesConf, stimuliConf) {
          * @property {object} probabilities.parameters.switch - Values related to the next state being different than
          * the current. Holds KV pair for every other state where key is the state id and value is the probability (0
          * - 100) that the next state will be the key.
-         * @property {object] probabilities._ranges - Holds a value for each state (0 - 100) which is an upper bound of
+         * @property {object} probabilities._ranges - Holds a value for each state (0 - 100) which is an upper bound of
          * a range for that state. The lower bound of this range is the previous value in the ranges object
          * (Numerically, not by index), and zero if already the lowest value. These values create the probability
          * distribution used for the calculation of the next state.
@@ -240,6 +241,8 @@ function State(statesConf, stimuliConf) {
     /**
      * Step simulation of state once. This will look at the current
      * state and determine the next state.
+     * @method step
+     * @memberOf State
      */
     self.step = function() {
         // Find next state
@@ -280,28 +283,37 @@ function State(statesConf, stimuliConf) {
 
         // Add to modifiers
         for (var i = 0; i < self.states.length; i++) {
-            var state = self.states[i];
+            var modsState = self.states[i];
+            var stateSelf = modsState.probabilities.parameters.self;
 
-            if(state.probabilities.parameters.self.modifier < 1) {
-                state.probabilities.parameters.self.modifier += 0.05;
+            var stimuliI = kvSearchOrThrow(self.stimuli, "state", modsState.id, "Cannot find stimuli with state: \"" + modsState.id + "\"");
+            var stimuli = self.stimuli[stimuliI];
+
+            if (stateSelf.modifier * stateSelf.value <= 99) {
+                stateSelf.modifier += (1 - stateSelf.modifier) / 6;
             }
 
-            self.states[i] = state;
+            self.states[i] = modsState;
         }
+
+        // Round out modifier
+        state.probabilities.parameters.self.modifier.toFixed(2);
     };
 
     /**
      * Calculates a set of ranges that are used to determine the
      * probability of the state changing to another state or staying
      * the same.
-
+     *
      * Note: The term "self" is used to describe the next state
      * being the same as the current state (Because the next state turns into
      * its "self").
      *
      * This function looks at a state object, more particularly the values in `probabilities.parameters`. It uses those
      * values to compute the values for `probabilities._ranges`.
-
+     *
+     * @method _calcRanges
+     * @memberOf State
      * @param {State} state - State to calculate ranges for
      * @returns {State} - State with new ranges calculated
      */
@@ -395,7 +407,7 @@ function State(statesConf, stimuliConf) {
 
             html += "<div class=\"state-details\">";
 
-            html += "<div class=\"title\">" + prettifyString(state.id) + "</div>";
+            html += "<div class=\"title\">" + prettifyString(state.id) + " (" + state.probabilities.parameters.self.modifier.toFixed(2) + ")</div>";
 
             // Show probabilities
             html += "<div class=\"probabilities-bar\">";
@@ -407,9 +419,8 @@ function State(statesConf, stimuliConf) {
             for (var key in ranges) {
                 // Calculate size of range
                 var upperBound = ranges[key];
-                var lowerBound = lastUpperBound;
 
-                var range = upperBound - lowerBound;
+                var range = upperBound - lastUpperBound;// lastUpperBound is actually the lower bound of the range
 
                 if (range < 0) {
                     range = 0;
@@ -427,7 +438,7 @@ function State(statesConf, stimuliConf) {
                     extraHtml = "class=\"self\"";
                 }
 
-                rangesHtml[key] = "<div " + extraHtml + " style=\"width: " + range + "%; background: " + currentState.uiColor + ";\">" + Math.round(range) + "</div>";
+                rangesHtml[key] = "<div " + extraHtml + " style=\"transition: width 1s; width: " + range + "%; background: " + currentState.uiColor + ";\">" + Math.round(range) + "</div>";
 
                 lastUpperBound = upperBound;
             }
@@ -468,10 +479,13 @@ function State(statesConf, stimuliConf) {
         Adding the effect to the modifier will then output the result of the
         state self probability
         */
+
         state.probabilities.parameters.self.modifier += stimulus.effect;
 
         if (state.probabilities.parameters.self.modifier < 0) {
             state.probabilities.parameters.self.modifier = 0;
+        } else if (state.probabilities.parameters.self.modifier * state.probabilities.parameters.self.value > 99) {
+            state.probabilities.parameters.self.modifier = 99 / state.probabilities.parameters.self.value;
         }
 
         // Update UI
