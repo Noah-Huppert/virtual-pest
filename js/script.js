@@ -16,7 +16,6 @@ var detailsEl = document.getElementById("details");
  * @param errorText {string} Text of error thrown if key cannot be found
  */
 function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
-    console.log(targets, targetKey, targetValue, errorText);
     for (var i = 0; i < targets.length; i++) {
         if (targets[i][targetKey] === targetValue) {
             return i;
@@ -383,9 +382,10 @@ function State(statesConf, stimuliConf) {
             html += "<div class=\"title\">" + prettifyString(state.id) + "</div>";
 
             html += "<div class=\"probabilities-bar\">";
+            console.log(state.probabilities.ranges);
             for (var key in state.probabilities.ranges) {
                 var widthValue = state.probabilities.ranges[key] * 100;
-                //html += "<div style=\"width: " + widthValue + "%\""
+                html += "<div style=\"width: " + widthValue + "%\"></div>";
             }
             html += "</div>";
 
@@ -400,15 +400,13 @@ function State(statesConf, stimuliConf) {
      * @param id Stimulus id
      */
     self.applyStimulus = function(id) {
-        console.log("applied", id);
-
         // Find stimulus config that we clicked on
-        console.log("applied - 1", id);
-        var stimulus = kvSearchOrThrow(self.stimuli, "id", id, "Cannot find stimulus with id: \"" + id + "\"");
+        var stimulusI = kvSearchOrThrow(self.stimuli, "id", id, "Cannot find stimulus with id: \"" + id + "\"");
+        var stimulus = self.stimuli[stimulusI];
 
         // Find state stimulus refers to
-        console.log("applied - 2", id);
-        var state = kvSearchOrThrow(self.states, "id", stimulus.state, "Cannot find state specified in stimulus with id: \"" + id + "\"");
+        var stateI = kvSearchOrThrow(self.states, "id", stimulus.state, "Cannot find state specified in stimulus with id: \"" + id + "\"");
+        var state = self.states[stateI];
 
         /* Apply state effect
         The State self probability is multiplied by the modifier
@@ -477,8 +475,6 @@ document.getElementById("stimuli-content").innerHTML = html;
 // Click listener for stimuli
 function onStimulusElClick(self) {
     var id = self.getAttribute("data-stimulus-id");
-
-    console.log("clicked", id);
 
     state.applyStimulus(id);
 }
