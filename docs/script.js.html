@@ -1,4 +1,32 @@
-"use strict";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: script.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: script.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
 
 // HTML elements for future use
 var stateImgEl = document.getElementById("state-img");
@@ -16,7 +44,7 @@ var detailsEl = document.getElementById("details");
  * @param errorText {string} Text of error thrown if key cannot be found
  */
 function kvSearchOrThrow(targets, targetKey, targetValue, errorText) {
-    for (var i = 0; i < targets.length; i++) {
+    for (var i = 0; i &lt; targets.length; i++) {
         if (targets[i][targetKey] === targetValue) {
             return i;
         }
@@ -176,7 +204,7 @@ function State(statesConf, stimuliConf) {
 
     // Interpret config
     self.states = [];
-    for (var i = 0; i < statesConf.length; i++) {
+    for (var i = 0; i &lt; statesConf.length; i++) {
         var conf = statesConf[i];
 
         // State object to be added
@@ -256,7 +284,7 @@ function State(statesConf, stimuliConf) {
             var value = self.getLatestRanges(state)[key];// Used as upper bound
 
             // If value is within range
-            if (random > lastValue && random <= value) {
+            if (random > lastValue &amp;&amp; random &lt;= value) {
                 // Save key and exit loop
                 nextStateId = key;
                 break;
@@ -282,14 +310,14 @@ function State(statesConf, stimuliConf) {
         }
 
         // Add to modifiers
-        for (var i = 0; i < self.states.length; i++) {
+        for (var i = 0; i &lt; self.states.length; i++) {
             var modsState = self.states[i];
             var stateSelf = modsState.probabilities.parameters.self;
 
             var stimuliI = kvSearchOrThrow(self.stimuli, "state", modsState.id, "Cannot find stimuli with state: \"" + modsState.id + "\"");
             var stimuli = self.stimuli[stimuliI];
 
-            if (stateSelf.modifier * stateSelf.value <= 99) {
+            if (stateSelf.modifier * stateSelf.value &lt;= 99) {
                 stateSelf.modifier += (1 - stateSelf.modifier) / 6;
             }
 
@@ -325,7 +353,7 @@ function State(statesConf, stimuliConf) {
         var selfValue = parameters.self.value * parameters.self.modifier;
 
         // Calculate switch values
-        var switchSpace = 100 - (selfValue < 0 ? 0 : selfValue);// Space available for range after big switch value
+        var switchSpace = 100 - (selfValue &lt; 0 ? 0 : selfValue);// Space available for range after big switch value
         var switchValues = {};
 
         for (var key in parameters.switch) {
@@ -383,34 +411,34 @@ function State(statesConf, stimuliConf) {
         var html = "";
 
         // States UI Color key (As in map key)
-        html += "<div id=\"ui-colors-key\">";
-        html += "<div class=\"title\">Key</div>";
+        html += "&lt;div id=\"ui-colors-key\">";
+        html += "&lt;div class=\"title\">Key&lt;/div>";
 
-        for (var i = 0; i < self.states.length; i++) {
+        for (var i = 0; i &lt; self.states.length; i++) {
             var state = self.states[i];
             var color = state.uiColor;
             var name = prettifyString(state.id);
 
-            html += "<div class=\"key-item\">";
+            html += "&lt;div class=\"key-item\">";
 
-            html += "<div class=\"color\" style=\"background: " + color + "\"></div>";
-            html += "<div class=\"name\">" + name + "</div>";
+            html += "&lt;div class=\"color\" style=\"background: " + color + "\">&lt;/div>";
+            html += "&lt;div class=\"name\">" + name + "&lt;/div>";
 
-            html += "</div>";
+            html += "&lt;/div>";
         }
 
-        html += "</div>";
+        html += "&lt;/div>";
 
         // Show state probabilities
-        for (var i = 0; i < self.states.length; i++) {
+        for (var i = 0; i &lt; self.states.length; i++) {
             var state = self.states[i];
 
-            html += "<div class=\"state-details\">";
+            html += "&lt;div class=\"state-details\">";
 
-            html += "<div class=\"title\">" + prettifyString(state.id) + " (" + state.probabilities.parameters.self.modifier.toFixed(2) + ")</div>";
+            html += "&lt;div class=\"title\">" + prettifyString(state.id) + " (" + state.probabilities.parameters.self.modifier.toFixed(2) + ")&lt;/div>";
 
             // Show probabilities
-            html += "<div class=\"probabilities-bar\">";
+            html += "&lt;div class=\"probabilities-bar\">";
 
             var ranges = self.getLatestRanges(state);
 
@@ -422,7 +450,7 @@ function State(statesConf, stimuliConf) {
 
                 var range = upperBound - lastUpperBound;// lastUpperBound is actually the lower bound of the range
 
-                if (range < 0) {
+                if (range &lt; 0) {
                     range = 0;
                 }
 
@@ -438,12 +466,12 @@ function State(statesConf, stimuliConf) {
                     extraHtml = "class=\"self\"";
                 }
 
-                rangesHtml[key] = "<div " + extraHtml + " style=\"transition: width 1s; width: " + range + "%; background: " + currentState.uiColor + ";\">" + Math.round(range) + "</div>";
+                rangesHtml[key] = "&lt;div " + extraHtml + " style=\"transition: width 1s; width: " + range + "%; background: " + currentState.uiColor + ";\">" + Math.round(range) + "&lt;/div>";
 
                 lastUpperBound = upperBound;
             }
 
-            for (var j = 0; j < self.states.length; j++) {
+            for (var j = 0; j &lt; self.states.length; j++) {
                 var id = self.states[j].id;
 
                 if (id === state.id) {
@@ -453,8 +481,8 @@ function State(statesConf, stimuliConf) {
                 html += rangesHtml[id];
             }
 
-            html += "</div>";
-            html += "</div>";
+            html += "&lt;/div>";
+            html += "&lt;/div>";
         }
 
         detailsEl.innerHTML = html;
@@ -482,7 +510,7 @@ function State(statesConf, stimuliConf) {
 
         state.probabilities.parameters.self.modifier += stimulus.effect;
 
-        if (state.probabilities.parameters.self.modifier < 0) {
+        if (state.probabilities.parameters.self.modifier &lt; 0) {
             state.probabilities.parameters.self.modifier = 0;
         } else if (state.probabilities.parameters.self.modifier * state.probabilities.parameters.self.value > 99) {
             state.probabilities.parameters.self.modifier = 99 / state.probabilities.parameters.self.value;
@@ -500,7 +528,7 @@ function prettifyString(text) {
     text = text.replace("-", " ");
 
     var parts = text.split(" ");
-    for (var i = 0; i < parts.length; i++) {
+    for (var i = 0; i &lt; parts.length; i++) {
         var part = parts[i];
         parts[i] = part[0].toUpperCase() + part.slice(1);
     }
@@ -517,31 +545,31 @@ var interval = setInterval(function() {
 
 // Generate HTML for stimuli menu
 var html = "";
-for (var i = 0; i < stimuli.length; i++) {
+for (var i = 0; i &lt; stimuli.length; i++) {
     var stimulus = stimuli[i];
 
-    html += "<div class=\"stimulus\" " +
+    html += "&lt;div class=\"stimulus\" " +
                  "data-stimulus-id=\"" + stimulus.id +
               "\" onclick=\"onStimulusElClick(this)\">";
 
     var stimulusImgUrl = "img/stimuli/" + stimulus.id + "/" + stimulus.id + ".png";
-    html += "<img src=\"" + stimulusImgUrl + "\" />";
+    html += "&lt;img src=\"" + stimulusImgUrl + "\" />";
 
-    html += "<div class=\"stimulus-name\">";
+    html += "&lt;div class=\"stimulus-name\">";
     html += prettifyString(stimulus.id);
-    html += "</div>";
+    html += "&lt;/div>";
 
-    html += "<div class=\"stimulus-effect\">";
+    html += "&lt;div class=\"stimulus-effect\">";
 
-    html += "<div class=\"ui-verb "  + stimulus.uiVerb + "\">";
+    html += "&lt;div class=\"ui-verb "  + stimulus.uiVerb + "\">";
     html += prettifyString(stimulus.uiVerb);
-    html += "</div>";
+    html += "&lt;/div>";
 
     html += " " + prettifyString(stimulus.conjugatedState) + " (" + (-1 * stimulus.effect) + ")";
 
-    html += "</div>";
+    html += "&lt;/div>";
 
-    html += "</div>";
+    html += "&lt;/div>";
 }
 
 document.getElementById("stimuli-content").innerHTML = html;
@@ -552,3 +580,26 @@ function onStimulusElClick(self) {
 
     state.applyStimulus(id);
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="global.html#State">State</a></li></ul><h3>Global</h3><ul><li><a href="global.html#kvSearchOrThrow">kvSearchOrThrow</a></li><li><a href="global.html#states">states</a></li><li><a href="global.html#stimuli">stimuli</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Dec 01 2016 06:19:26 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

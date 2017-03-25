@@ -1,130 +1,151 @@
 body {
-    min-height: 0 !important;
+    height: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
     background: #2A7DFF;
     font-family: 'Oswald', sans-serif;
 }
 
-.button {
-    padding: 20px;
-    background: #FFFFFF;
-    border-radius: 2px;
-    font-size: 24px;
-    color: #FF412A;
-    user-select: none;
+#state-img-container {
+    width: calc(100% - 300px);
+    height: 400px;
+    float: right;
+    text-align: center;
     display: inline-block;
 }
 
-.button:hover {
-    cursor: pointer;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.animation-spin {
-    animation: spin 1s;
-}
-
-.material-icons {
-    cursor: pointer;
-}
-
-#img-container {
-    height: 400px;
-    margin-top: 50px;
-    text-align: center;
-}
-#img-container img {
+#state-img {
     height: 100%;
 }
 
-#bottom {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-}
-
-#footer {
-    height: 60px;
-    line-height: 60px;
-    border-top: solid #2458A9 1px;
+#stimuli-layout {
+    width: 300px;
+    height: calc(100% - 80px);
+    padding-top: 80px;
+    background: #FFFFFF;
+    display: inline-block;
+    overflow-y: scroll;;
     text-align: center;
 }
 
-.footer-el {
+#stimuli-header {
+    width: 300px;
+    height: 75px;
+    padding-top: 10px;
+    position: fixed;
+    top: 0px;
+    background: #FFFFFF;
+    font-size: 36px;
+    text-align: center;
+}
+
+#stimuli-sub-header {
+    margin-top: 15px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
+.stimulus {
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+.stimulus:first-of-type {
+    margin-top: 20px;
+}
+
+.stimulus img {
+    height: 100px;
+}
+
+#stimuli-content {
+    width: 100%;
+}
+
+.stimulus-name {
+    height: 30px;
+    line-height: 30px;
+    font-size: 24px;
+}
+
+.stimulus-effect {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+}
+
+.stimulus-effect div {
     display: inline-block;
 }
 
-#details-footer {
-    height: 250px;
-    background: #FFFFFF;
-    border-top: solid #000000 1px;
+.ui-verb {
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 3px;
+    color: #FFFFFF;
 }
 
-#details-footer .mdl-tabs__tab-bar a {
-    color: #000000;
+.helps {
+    background: #13DB21;
 }
 
-.tab-name {
-    margin: 10px;
-    font-size: 24px;
-    color: #819197;
+.causes {
+    background: #DB135E;
 }
 
-.tab-content {
-    margin-top: 10px;
-    margin-left: 20px;
+#state-details-layout {
+    width: calc(100% - 300px);
+    position: relative;
+    top: -384px;
+    float: right;
 }
 
-.mood-bubble {
-    width: 40px;
+#current-state {
     height: 40px;
     line-height: 40px;
-    text-align: center;
-    border-radius: 40px;
-    border: solid #000000 1px;
-}
-
-#state-ctrl {
-    float: left;
-    margin-left: 20px;
-    font-size: 36px;
-    user-select: none;
-}
-
-#state-ctrl i {
-    font-size: 36px;
-    color: #FFFFFF;
-    transition: color 1s;
-}
-
-#state-ctrl .inactive {
-    color: #0C47A4 !important;
-    cursor: not-allowed !important;
-}
-
-#mood-name {
     font-size: 36px;
     text-align: center;
     color: #FFFFFF;
 }
 
-#expand-btns {
-    float: right;
-    margin-right: 20px;
-    font-size: 36px;
+#details {
+    height: 320px;
+    padding: 10px;
+    background: #FFFFFF;
 }
 
-#expand-btns i {
-    font-size: 36px;
-    color: #FFFFFF;
+.key-item {
+    display: inline-block;
+}
+
+.key-item div {
+    display: inline-block;
+}
+
+.key-item .color {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+}
+
+.key-item .name {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.state-details {
+    margin-top: 10px;
+}
+
+.probabilities-bar div {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    transition: width 1s;
+}
+
+.probabilities-bar .self {
+    border-top: solid gray 3px;
+    border-bottom: solid gray 3px;
 }

@@ -1,67 +1,27 @@
-<!--
-TODO: Figure out pause play button bug (Pause then play, steps wayyyy to fast)
-TODO: Add bottom extra bar using tabs
--->
 <!DOCTYPE HTML>
 <html>
     <head>
         <title>Virtual Pest</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Oswald|Material+Icons" rel="stylesheet">
-        <link href="css/lib/material.min.css" rel="stylesheet">
+        <link href="css/lib/g-fonts.css" rel="stylesheet">
         <link href="css/style.css" rel="stylesheet">
-
-        <script src="js/lib/material.min.js"></script>
-        <script src="https://unpkg.com/vue/dist/vue.js"></script>
     </head>
     <body>
-        <div id="app">
-            <div id="img-container">
-                <img id="mood-img" v-bind:src="currentMood.src">
+        <div id="stimuli-layout">
+            <div id="stimuli-header">
+                Stimuli
+                <div id="stimuli-sub-header">(Just click)</div>
             </div>
-
-            <div id="bottom">
-                <div id="footer">
-                    <div id="state-ctrl" class="footer-el">
-                        <i id="state-backward" v-bind:class="stateCtrlBtnClass">fast_rewind</i>
-                        <i id="state-toggle" class="material-icons" v-on:click="toggleStepMode">{{stateCtrlModeIcon}}</i>
-                        <i id="state-forward" v-bind:class="stateCtrlBtnClass" v-on:click="onStateForwardClick">
-                            fast_forward
-                        </i>
-                    </div>
-
-                    <div id="mood-name" class="footer-el">{{currentMood.name}}</div>
-
-                    <div id="expand-btns" class="footer-el">
-                        <i class="material-icons">settings</i>
-                    </div>
-                </div>
-
-                <div class="mdl-tabs mdl-js-tabs" id="details-footer">
-                    <div class="mdl-tabs__tab-bar">
-                        <a href="#information-tab" class="mdl-tabs__tab">Information</a>
-                        <a href="#settings-tab" class="mdl-tabs__tab">Settings</a>
-                    </div>
-
-                    <div class="mdl-tabs__panel is-active" id="information-tab">
-                        <div class="tab-name">Information:</div>
-                        <div class="tab-content">
-                            <div class="mood-bubble">
-                                {{currentMood.emoji}}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mdl-tabs__panel" id="settings-tab">
-                        Settings tab!
-                    </div>
-                </div>
-            </div>
+            <div id="stimuli-content"></div>
         </div>
 
-        <div class="mdl-snackbar mdl-js-snackbar">
-            <div class="mdl-snackbar__text"></div>
-            <button type="button" class="mdl-snackbar__action"></button>
+        <div id="state-img-container">
+            <img id="state-img" src="" />
+        </div>
+
+        <div id="state-details-layout">
+            <div id="current-state"></div>
+            <div id="details"></div>
         </div>
 
         <script src="js/script.js"></script>
